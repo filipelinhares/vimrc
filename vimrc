@@ -359,7 +359,7 @@ let g:mustache_abbreviations = 1
 " vim-closetag
 
 " Enable for files with this extensions
-let g:closetag_filenames = "*.handlebars,*.html,*.xhtml,*.phtml, *.erb, *jsx"
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb,*.jsx"
 
 "-------------------------
 " Tern_for_vim
