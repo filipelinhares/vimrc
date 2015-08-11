@@ -197,7 +197,7 @@ NeoBundle 'andersoncustodio/vim-enter-indent'
 " Vim colorscheme
 NeoBundle 'tomasr/molokai'
 
-"
+" Graph your Vim undo tree in style
 NeoBundle 'sjl/gundo.vim'
 
 " Ag to Silver Searcher (search in files)
@@ -415,64 +415,6 @@ let g:airline_section_y = ''
 
 " Don't display filetype
 let g:airline_section_x = ''
-
-"-------------------------
-" neocomplcache
-
-" Enable NeocomplCache at startup
-let g:neocomplcache_enable_at_startup = 1
-
-" Max items in code-complete
-let g:neocomplcache_max_list = 10
-
-" Max width of code-complete window
-let g:neocomplcache_max_keyword_width = 80
-
-" Code complete is ignoring case until no Uppercase letter is in input
-let g:neocomplcache_enable_smart_case = 1
-
-" Auto select first item in code-complete
-let g:neocomplcache_enable_auto_select = 1
-
-" Disable auto popup
-let g:neocomplcache_disable_auto_complete = 1
-
-" Smart tab Behavior
-function! CleverTab()
-    " If autocomplete window visible then select next item in there
-    if pumvisible()
-        return "\<C-n>"
-    endif
-    " If it's begining of the string then return just tab pressed
-    let substr = strpart(getline('.'), 0, col('.') - 1)
-    let substr = matchstr(substr, '[^ \t]*$')
-    if strlen(substr) == 0
-        " nothing to match on empty string
-        return "\<Tab>"
-    else
-        " If not begining of the string, and autocomplete popup is not visible
-        " Open this popup
-        return "\<C-x>\<C-u>"
-    endif
-endfunction
-inoremap <expr><TAB> CleverTab()
-
-" Undo autocomplete
-inoremap <expr><C-e> neocomplcache#undo_completion()
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-
-" For cursor moving in insert mode
-inoremap <expr><Left>  neocomplcache#close_popup() . "\<Left>"
-inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
-inoremap <expr><Up>    neocomplcache#close_popup() . "\<Up>"
-inoremap <expr><Down>  neocomplcache#close_popup() . "\<Down>"
-
-" disable preview in code complete
-set completeopt-=preview
 
 "-------------------------
 " Arpeggio
