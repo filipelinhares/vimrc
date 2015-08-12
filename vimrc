@@ -208,6 +208,15 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'vim-addon-mw-utils'
 NeoBundle 'terryma/vim-multiple-cursors'
 
+" endwise.vim: wisely add end in ruby, endfunction/endif/more in vim script, etc
+NeoBundle 'tpope/vim-endwise'
+
+" Easy jump to wherever you want
+NeoBundle 'easymotion/vim-easymotion'
+
+" Highlight colors in CSS
+NeoBundle 'mamut/vim-css-hex'
+
 call neobundle#end()
 
 " Enable Indent in plugins
