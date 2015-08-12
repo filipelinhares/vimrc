@@ -196,6 +196,7 @@ NeoBundle 'andersoncustodio/vim-enter-indent'
 
 " Vim colorscheme
 NeoBundle 'tomasr/molokai'
+NeoBundle 'jordwalke/flatlandia'
 
 " Graph your Vim undo tree in style
 NeoBundle 'sjl/gundo.vim'
@@ -416,6 +417,8 @@ let g:airline_section_y = ''
 " Don't display filetype
 let g:airline_section_x = ''
 
+let g:airline_powerline_fonts = 1
+
 "-------------------------
 " Arpeggio
 
@@ -430,7 +433,7 @@ set background=dark
 " set highlighting for colorcolumn
 highlight ColorColumn ctermbg=darkGrey
 " Colorcheme
-colorscheme molokai
+colorscheme flatlandia
 let g:molokai_original = 1
 let g:rehash256 = 1
 
@@ -579,10 +582,13 @@ set colorcolumn=+1
 set relativenumber
 
 " Font family and size
-set guifont=Monaco\ 12
-
+set guifont=Fira\ Mono\ Medium\ for\ Powerline\ 12
 " Remove tab bar if using a gui
 set guioptions-=T
+
+" Set a cool color to the cursor
+au InsertLeave * hi Cursor guifg=#222 guibg=#FA9E3A
+au InsertEnter * hi Cursor guifg=#222 guibg=#FA9E3A
 
 "--------------------------------------------------
 " Tab options
@@ -793,3 +799,5 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 autocmd BufNewFile,BufRead *.slim,*.haml setlocal list listchars=extends:>,precedes:<,eol:¬
+
+
