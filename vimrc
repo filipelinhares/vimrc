@@ -725,9 +725,8 @@ nmap <leader>s :%s//<left>
 vmap <leader>s :s//<left>
 
 " Copy and paste gnome-vim
-nmap <C-V> "+gP
-imap <C-V> <ESC><C-V>a
-vmap <C-C> "+y
+nmap <leader>v "+gP
+vmap <leader>c "+y
 
 " Disable directions key navigation
 noremap <up>    :echoerr 'Use K to go up'<CR>
