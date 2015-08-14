@@ -214,8 +214,8 @@ NeoBundle 'tpope/vim-endwise'
 " Easy jump to wherever you want
 NeoBundle 'easymotion/vim-easymotion'
 
-" Highlight colors in CSS
-NeoBundle 'mamut/vim-css-hex'
+" Coffeescript support
+NeoBundle 'vim-scripts/vim-coffee-script'
 
 call neobundle#end()
 
@@ -808,5 +808,3 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 autocmd BufNewFile,BufRead *.slim,*.haml setlocal list listchars=extends:>,precedes:<,eol:¬
-
-
