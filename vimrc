@@ -195,6 +195,8 @@ NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'andersoncustodio/vim-enter-indent'
 
 " Vim colorscheme
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'tomasr/molokai'
 NeoBundle 'jordwalke/flatlandia'
 
@@ -217,6 +219,17 @@ NeoBundle 'easymotion/vim-easymotion'
 " Coffeescript support
 NeoBundle 'vim-scripts/vim-coffee-script'
 
+" Autocomplete
+NeoBundle 'Shougo/neocomplete.vim'
+
+" Keep your css clean
+NeoBundle 'csscomb/vim-csscomb'
+
+" Smoothscroll :D
+NeoBundle 'terryma/vim-smooth-scroll'
+
+" Expand plugin
+NeoBundle 'terryma/vim-expand-region'
 call neobundle#end()
 
 " Enable Indent in plugins
@@ -268,6 +281,14 @@ nnoremap <F5> :GundoToggle<CR>
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 "-------------------------
+" Smoothscroll
+
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+"-------------------------
 " NERDTree
 
 " Tell NERDTree to display hidden files on startup
@@ -303,6 +324,7 @@ endfunction
 let g:syntastic_javascript_jshint_exec = s:FindSyntasticExecPath('jshint')
 let g:syntastic_javascript_jscs_exec = s:FindSyntasticExecPath('jscs')
 let g:syntastic_css_csslint_exec= s:FindSyntasticExecPath('csslint')
+let g:syntastic_scss_scsslint_exec= s:FindSyntasticExecPath('scss-lint')
 
 " Enable autochecks
 let g:syntastic_check_on_open=1
@@ -396,20 +418,13 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
 
 " Expand snippet and jimp to next snippet field on Enter key.
-imap <expr><CR> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-
+imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
 "-------------------------
 " vim-airline
 
 " Colorscheme for airline
-let g:airline_theme='understated'
-
-" Set custom left separator
-let g:airline_left_sep = '▶'
-
-" Set custom right separator
-let g:airline_right_sep = '◀'
+let g:airline_theme='tomorrow'
 
 " Enable airline for tab-bar
 let g:airline#extensions#tabline#enabled = 1
@@ -442,7 +457,7 @@ set background=dark
 " set highlighting for colorcolumn
 highlight ColorColumn ctermbg=darkGrey
 " Colorcheme
-colorscheme flatlandia
+colorscheme Tomorrow-Night
 let g:molokai_original = 1
 let g:rehash256 = 1
 
@@ -592,6 +607,7 @@ set relativenumber
 
 " Font family and size
 set guifont=Fira\ Mono\ Medium\ for\ Powerline\ 12
+
 " Remove tab bar if using a gui
 set guioptions-=T
 
@@ -727,6 +743,7 @@ vmap <leader>s :s//<left>
 " Copy and paste gnome-vim
 nmap <leader>v "+gP
 vmap <leader>c "+y
+imap <leader>v <Esc>"+gP a
 
 " Disable directions key navigation
 noremap <up>    :echoerr 'Use K to go up'<CR>
