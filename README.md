@@ -2,8 +2,14 @@
 > A vimrc focused to front-end development
 
 ## Installation
+**curl**
+```bash
+curl -o- https://raw.githubusercontent.com/filipelinhares/dotvim/master/install.sh | bash
 ```
-git clone https://github.com/filipelinhares/dotvim.git ~/dotvim && ln -s ~/dotvim/.vimrc ~/
+
+**wget**
+```bash
+wget -qo- https://raw.githubusercontent.com/filipelinhares/dotvim/master/install.sh | bash
 ```
 
 ## Font
