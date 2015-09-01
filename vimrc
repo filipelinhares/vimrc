@@ -195,10 +195,7 @@ NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'andersoncustodio/vim-enter-indent'
 
 " Vim colorscheme
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'chriskempson/vim-tomorrow-theme'
-NeoBundle 'tomasr/molokai'
-NeoBundle 'jordwalke/flatlandia'
+NeoBundle 'flazz/vim-colorschemes'
 
 " Graph your Vim undo tree in style
 NeoBundle 'sjl/gundo.vim'
@@ -230,6 +227,13 @@ NeoBundle 'terryma/vim-smooth-scroll'
 
 " Expand plugin
 NeoBundle 'terryma/vim-expand-region'
+
+" vim-node, like vim rails but node
+NeoBundle 'moll/vim-node'
+
+" Markdown syntax and cool things
+NeoBundle 'plasticboy/vim-markdown'
+
 call neobundle#end()
 
 " Enable Indent in plugins
