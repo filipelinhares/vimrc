@@ -1,518 +1,53 @@
-"--------------------------------------------------
-" NeoBundle Init
-
-" Use 256 colors in vim
-" some plugins not work without it
-set t_Co=256
-
-" Turn off filetype plugins before bundles init
-filetype off
-" Auto installing NeoNeoBundle
-let isNpmInstalled = executable("npm")
-" default path for node-modules
-let s:defaultNodeModules = '~/.vim/node_modules/.bin/'
-let iCanHazNeoBundle=1
-let neobundle_readme=expand($HOME.'/.vim/bundle/neobundle.vim/README.md')
-if !filereadable(neobundle_readme)
-    if !isNpmInstalled
-        echo "==============================================="
-        echo "Your need to install npm to enable all features"
-        echo "==============================================="
-    endif
-    echo "Installing NeoBundle.."
-    silent !mkdir -p $HOME/.vim/bundle
-    silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
-    let iCanHazNeoBundle=0
-endif
-
-" Call NeoBundle
-if has('vim_starting')
-    set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
-endif
-
-call neobundle#begin(expand($HOME.'/.vim/bundle/'))
-
-" Determine make or gmake will be used for making additional deps for Bundles
-let g:make = 'gmake'
-if system('uname -o') =~ '^GNU/'
-    let g:make = 'make'
-endif
-
-"--------------------------------------------------
-" Bundles
-
-" Let NeoNeoBundle manage NeoNeoBundle
-NeoBundle 'Shougo/neobundle.vim'
-
-" Some support functions used by delimitmate, and snipmate
-NeoBundle 'vim-scripts/tlib'
-
-" Improve bookmarks in vim
-" Allow word for bookmark marks, and nice quickfix window with bookmark list
-" NeoBundle 'AndrewRadev/simple_bookmarks.vim'
-
-" Snippets engine
-NeoBundle 'Shougo/neosnippet'
-" Default snippets for neosnippet, i prefer vim-snippets
-"NeoBundle 'Shougo/neosnippet-snippets'
-" Default snippets
-NeoBundle 'honza/vim-snippets'
-
-" Dirr diff
-NeoBundle 'vim-scripts/DirDiff.vim'
-
-" Allow autoclose paired characters like [,] or (,),
-" and add smart cursor positioning inside it,
-NeoBundle 'Raimondi/delimitMate'
-
-" Add code static check on write
-" need to be properly configured.
-" I just enable it, with default config,
-" many false positive but still usefull
-NeoBundle 'scrooloose/syntastic'
-" Install jshint and csslint for syntastic
-" Path to jshint if it not installed, then use local installation
-if isNpmInstalled
-    if !executable(expand(s:defaultNodeModules . 'jshint'))
-        silent ! echo 'Installing jshint' && npm --prefix ~/.vim/ install jshint
-    endif
-    if !executable(expand(s:defaultNodeModules . 'csslint'))
-        silent ! echo 'Installing csslint' && npm --prefix ~/.vim/ install csslint
-    endif
-endif
-
-" Great file system explorer, it appears when you open dir in vim
-" Allow modification of dir, and may other things
-" Must have
-NeoBundle 'scrooloose/nerdtree'
-
-" Provide smart autocomplete results for javascript, and some usefull commands
-if has("python") && isNpmInstalled
-    " install tern and node dependencies for tern
-    NeoBundle 'marijnh/tern_for_vim', {
-\       'build' : {
-\          'unix' : 'npm install'
-\       }
-\   }
-endif
-
-" Add smart commands for comments like:
-" gcc - Toggle comment for the current line
-" gc  - Toggle comments for selected region or number of strings
-" Very usefull
-NeoBundle 'tomtom/tcomment_vim'
-
-" Best git wrapper for vim
-" But with my workflow, i really rarely use it
-" just Gdiff and Gblame sometimes
-NeoBundle 'tpope/vim-fugitive'
-
-" Fix-up dot command behavior
-" it's kind of service plugin
-NeoBundle 'tpope/vim-repeat'
-
-" Add usefull hotkey for operation with surroundings
-" cs{what}{towhat} - inside '' or [] or something like this allow
-" change surroundings symbols to another
-" and ds{what} - remove them
-NeoBundle 'tpope/vim-surround'
-
-" Syntax highlighting for Stylus
-NeoBundle 'wavded/vim-stylus'
-
-" Add aditional hotkeys
-" Looks like i'm not using it at all
-"NeoBundle 'tpope/vim-unimpaired'
-
-" HTML5 + inline SVG omnicomplete funtion, indent and syntax for Vim.
-NeoBundle 'othree/html5.vim'
-
-" Syntax highlighting for .jsx (js files for react js)
-NeoBundle 'mxw/vim-jsx'
-
-" Highlights the matching HTML tag when the cursor
-" is positioned on a tag.
-NeoBundle 'gregsexton/MatchTag'
-
-" Add Support css3 property
-NeoBundle 'hail2u/vim-css3-syntax'
-
-" Add support for mustache/handlebars
-NeoBundle 'mustache/vim-mustache-handlebars'
-
-" Add support for jade
-NeoBundle 'digitaltoad/vim-jade'
-
-" Automatically add closing tags in html-like formats
-NeoBundle 'alvan/vim-closetag'
-
-" Smart indent for javascript
-" http://www.vim.org/scripts/script.php?script_id=3081
-NeoBundle 'lukaszb/vim-web-indent'
-
-" Plugin for changing cursor when entering in insert mode
-" looks like it works fine with iTerm Konsole adn xerm
-" Applies only on next vim launch after NeoBundleInstall
-NeoBundle 'jszakmeister/vim-togglecursor'
-
-" Nice statusline/ruler for vim
-NeoBundle 'bling/vim-airline'
-
-" Improve javascritp syntax higlighting, needed for good folding,
-" and good-looking javascritp code
-NeoBundle 'jelera/vim-javascript-syntax'
-
-"code-completion for jquery, lodash e.t.c
-NeoBundle 'othree/javascript-libraries-syntax.vim'
-
-" Improved json syntax highlighting
-NeoBundle 'elzr/vim-json'
-
-" Plugin for chord mappings
-NeoBundle 'kana/vim-arpeggio'
-
-" JShint :)
-" But not necessary with syntastics
-" NeoBundle 'walm/jshint.vim'
-
-" Fuzzy finder
-NeoBundle 'kien/ctrlp.vim'
-
-" HTML and CSS completations
-NeoBundle 'mattn/emmet-vim'
-
-" Slim syntax highlight
-NeoBundle 'slim-template/vim-slim'
-
-" Awesome ruby things
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'tpope/vim-rails'
-
-" Git gutter, git diff live info
-NeoBundle 'airblade/vim-gitgutter'
-
-NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'andersoncustodio/vim-enter-indent'
-
-" Vim colorscheme
-NeoBundle 'flazz/vim-colorschemes'
-
-" Graph your Vim undo tree in style
-NeoBundle 'sjl/gundo.vim'
-
-" Ag to Silver Searcher (search in files)
-NeoBundle 'rking/ag.vim'
-
-" Vim multiple cursor
-NeoBundle 'vim-addon-mw-utils'
-NeoBundle 'terryma/vim-multiple-cursors'
-
-" endwise.vim: wisely add end in ruby, endfunction/endif/more in vim script, etc
-NeoBundle 'tpope/vim-endwise'
-
-" Easy jump to wherever you want
-NeoBundle 'easymotion/vim-easymotion'
-
-" Coffeescript support
-NeoBundle 'vim-scripts/vim-coffee-script'
-
-" Autocomplete
-NeoBundle 'Shougo/neocomplete.vim'
-
-" Keep your css clean
-NeoBundle 'csscomb/vim-csscomb'
-
-" Smoothscroll :D
-NeoBundle 'terryma/vim-smooth-scroll'
-
-" Expand plugin
-NeoBundle 'terryma/vim-expand-region'
-
-" vim-node, like vim rails but node
-NeoBundle 'moll/vim-node'
-
-" Markdown syntax and cool things
-NeoBundle 'plasticboy/vim-markdown'
-
-call neobundle#end()
-
 " Enable Indent in plugins
 filetype plugin indent on
+syntax enable
 
 " Enable syntax highlighting
 syntax on
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-
-" disable annoying prompt on initial bundle install
-set nomore
-
-" fix issue when github refuse connections on initial install
-let g:neobundle#install_max_processes=2
-
-" Install all bundles on first launch
-if !iCanHazNeoBundle
-    NeoBundleInstall
-endif
-
-" Check new bundles on startup
-NeoBundleCheck
-
-"--------------------------------------------------
-" Bundles settings
-
-"-------------------------
-
-"-------------------------
-" CtrlP
-
-nnoremap <silent><leader>; :CtrlP <Enter>
-
-"-------------------------
-" Ag
-
-nnoremap <silent><leader>a :Ag!
-
-"-------------------------
-" Gundo
-
-nnoremap <F5> :GundoToggle<CR>
-
-"-------------------------
-" Emmet
-
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-
-"-------------------------
-" Smoothscroll
-
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
-
-"-------------------------
-" NERDTree
-
-" Tell NERDTree to display hidden files on startup
-let NERDTreeShowHidden=1
-
-" Disable bookmarks label, and hint about '?'
-let NERDTreeMinimalUI=1
-
-" Display current file in the NERDTree ont the left
-nmap <silent> <leader>f :NERDTreeToggle<CR>
-
-"-------------------------
-" Syntastic
-
-function! s:FindSyntasticExecPath(toolName)
-    if executable(a:toolName)
-        return a:toolName
-    endif
-
-    let fullPath=fnamemodify('.', ':p:h')
-    while fullPath != fnamemodify('/', ':p:h')
-        if filereadable(expand(fullPath . '/node_modules/.bin/' . a:toolName))
-            return fullPath . '/node_modules/.bin/' . a:toolName
-        endif
-        let fullPath = fnamemodify(fullPath . '/../', ':p:h')
-    endwhile
-
-    return  s:defaultNodeModules . a:toolName
-
-endfunction
-
-" setting up jshint csslint and jscs if available
-let g:syntastic_javascript_jshint_exec = s:FindSyntasticExecPath('jshint')
-let g:syntastic_javascript_jscs_exec = s:FindSyntasticExecPath('jscs')
-let g:syntastic_css_csslint_exec= s:FindSyntasticExecPath('csslint')
-let g:syntastic_scss_scsslint_exec= s:FindSyntasticExecPath('scss-lint')
-
-" Enable autochecks
-let g:syntastic_check_on_open=1
-let g:syntastic_enable_signs=1
-
-" For correct works of next/previous error navigation
-let g:syntastic_always_populate_loc_list = 1
-
-" check json files with jshint
-let g:syntastic_filetype_map = { "json": "javascript", }
-
-let g:syntastic_javascript_checkers = ["jshint", "jscs"]
-
-" open quicfix window with all error found
-nmap <silent> <leader>ll :Errors<cr>
-" previous syntastic error
-nmap <silent> [ :lprev<cr>
-" next syntastic error
-nmap <silent> ] :lnext<cr>
-
-"-------------------------
-" Fugitive
-
-" Blame on current line
-nmap <silent> <leader>b :.Gblame<cr>
-" Blame on all selected lines in visual mode
-vmap <silent> <leader>b :Gblame<cr>
-" Git status
-nmap <silent> <leader>gst :Gstatus<cr>
-" like git add
-nmap <silent> <leader>gw :Gwrite<cr>
-" git diff
-nmap <silent> <leader>gd :Gdiff<cr>
-" git commit
-nmap <silent> <leader>gc :Gcommit<cr>
-" git commit all
-nmap <silent> <leader>gca :Gcommit -a<cr>
-" git fixup previous commit
-nmap <silent> <leader>gcf :Gcommit -a --amend<cr>
-
-
-"-------------------------
-" DelimitMate
-
-" Delimitmate place cursor correctly n multiline objects e.g.
-" if you press enter in {} cursor still be
-" in the middle line instead of the last
-let delimitMate_expand_cr = 1
-
-" Delimitmate place cursor correctly in singleline pairs e.g.
-" if x - cursor if you press space in {x} result will be { x } instead of { x}
-let delimitMate_expand_space = 1
-
-" Without this we can't disable delimitMate for specific file types
-let loaded_delimitMate = 1
-
-"-------------------------
-" vim-mustache-handlebars
-
-" Enable shortcuts for things like {{{ an {{
-let g:mustache_abbreviations = 1
-
-"-------------------------
-" vim-closetag
-
-" Enable for files with this extensions
-let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb,*.jsx"
-
-"-------------------------
-" Tern_for_vim
-
-let tern_show_signature_in_pum = 1
-
-" Find all refs for variable under cursor
-nmap <silent> <leader>tr :TernRefs<CR>
-
-" Smart variable rename
-nmap <silent> <leader>tn :TernRename<CR>
-
-"-------------------------
-" neosnippets
-"
-
-" Enable snipMate compatibility
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-
-" Disables standart snippets. We use vim-snippets bundle instead
-let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
-
-" Expand snippet and jimp to next snippet field on Enter key.
-imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
-"-------------------------
-" vim-airline
-
-" Colorscheme for airline
-let g:airline_theme='tomorrow'
-
-" Enable airline for tab-bar
-let g:airline#extensions#tabline#enabled = 1
-
-" Don't display buffers in tab-bar with single tab
-let g:airline#extensions#tabline#show_buffers = 0
-
-" Display only filename in tab
-let g:airline#extensions#tabline#fnamemod = ':t'
-
-" Don't display encoding
-let g:airline_section_y = ''
-
-" Don't display filetype
-let g:airline_section_x = ''
-
-let g:airline_powerline_fonts = 1
-
-"-------------------------
-" Arpeggio
-
-" map jk to escape
-call arpeggio#map('i', '', 0, 'jk', '<ESC>')
-
-"--------------------------------------------------
-" Colorscheme
-
-" Setting up light color scheme
-set background=dark
-" set highlighting for colorcolumn
-highlight ColorColumn ctermbg=darkGrey
-" Colorcheme
-colorscheme Tomorrow-Night
-let g:molokai_original = 1
-let g:rehash256 = 1
-
-"--------------------------------------------------
-" General options
-
-" Enable per-directory .vimrc files and disable unsafe commands in them
-"set exrc secure
-
-" Set up leader key <leader>, i use default \
-"let mapleader = ','
-
-" Buffer will be hidden instead of closed when no one display it
-"set hidden
-
-" Auto reload changed files
-set autoread
-
-" Always change current dirrectory to current-editing-file dir
-"set autochdir
-
-" Indicates fast terminal connection
-set ttyfast
-
-" Set character encoding to use in vim
-set encoding=utf-8
+" do not create backup, swap file, use git for version managment
+set nobackup
+set nowritebackup
+set noswapfile
+
+set history=1000  "store lots of :cmdline history
 
 " Let vim know what encoding we use in our terminal
 set termencoding=utf-8
 
-" Which EOl used. For us it's unix
-" Not works with modifiable=no
-if &modifiable
-    set fileformat=unix
-endif
+" Add '-' as recognized word symbol. e.g dw delete all 'foo-bar' instead just 'foo'
+set iskeyword+=-
 
-" Enable Tcl interface. Not shure what is exactly mean.
-" set infercase
+" Make < and > match as well
+set matchpairs+=<:>
 
-" Interprete all files like binary and disable many features.
-" set binary
+" Use 256 colors in vim
+set t_Co=256
 
-"--------------------------------------------------
-" Tabnav options
-
-nnoremap t0  :tabfirst<CR>
-nnoremap t$  :tablast<CR>
-nnoremap th  :tabprev<CR>
-nnoremap tl  :tabnext<CR>
-nnoremap tt  :tabedit<CR>
-nnoremap td  :tabclose<CR>
+" ---------------------------------------------------------------------------
+" UI
+" ---------------------------------------------------------------------------
+set title
+set encoding=utf-8
+set autoindent
+set smartindent
+set showmode
+set showcmd
+set hidden
+set wildmenu
+set wildmode=list:longest
+set wildcharm=<TAB> " Autocmpletion hotkey
+set novisualbell
+set cursorline
+set ttyfast
+set backspace=indent,eol,start "allow backspacing over everything in insert mode
+set laststatus=2
+set nonumber
+set relativenumber " show relative numbers
+set number
+set colorcolumn=+1 " higlight column right after max textwidth
+set nostartofline "The cursor should stay where you leave it, instead of moving to the first non blank of the line
+set smarttab
 
 "--------------------------------------------------
 " Splitpanels options
@@ -527,227 +62,86 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
-"--------------------------------------------------
-" Display options
+" some stuff to get the mouse going in term
+set mouse=a
+set ttymouse=xterm2
 
-" Hide showmode
-" Showmode is useless with airline
-set noshowmode
+" ---------------------------------------------------------------------------
+" Text Formatting
+" ---------------------------------------------------------------------------
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab!
 
-" Show file name in window title
-set title
-
-" Mute error bell
-set novisualbell
-
-" Remove all useless messages like intro screen and use abbreviation like RO
-" instead readonly and + instead modified
-set shortmess=atI
-
-" Enable display whitespace characters
-set list
-
-" Setting up how to display whitespace characters
- set listchars=tab:⇥\ ,trail:·,extends:⋯,precedes:⋯,nbsp:~
-
-" Wrap line only on characters in breakat list like ^I!@*-+;:,./?
-" Useless with nowrap
-" set linebreak
-
-" Numbers of line to scroll when the cursor get off the screen
-" Useless with scrolloff
-" set scrolljump=5
-
-" Numbers of columns to scroll when the cursor get off the screen
-" Useless with sidescrollof
-" set sidescroll=4
-
-" Numbers of rows to keep to the left and to the right off the screen
-set scrolloff=10
-
-" Numbers of columns to keep to the left and to the right off the screen
-set sidescrolloff=10
-
-" Vim will move to the previous/next line after reaching first/last char in
-" the line with this commnad (you can add 'h' or 'l' here as well)
-" <,> stand for arrows in command mode and [,] arrows in visual mode
 set whichwrap=b,s,<,>,[,],
-
-" Display command which you typing and other command related stuff
-set showcmd
-
-" Indicate that last window have a statusline too
-set laststatus=2
-
-" Add a line / column display in the bottom right-hand section of the screen.
-" Not needed with airline plugin
-"set ruler
-
-" Setting up right-hand section(ruller) format
-" Not needed with airline plugin
-"set rulerformat=%30(%=\:%y%m%r%w\ %l,%c%V\ %P%)
-
-" The cursor should stay where you leave it, instead of moving to the first non
-" blank of the line
-set nostartofline
-
-" Disable wrapping long string
 set nowrap
+set textwidth=0
+set formatoptions=n
 
-" Display Line numbers
-set number
+set wrap
+set linebreak
+set nolist
 
-" Highlight line with cursor
-set cursorline
-
-" maximum text length at 80 symbols, vim automatically breaks longer lines
-set textwidth=80
-
-" higlight column right after max textwidth
-set colorcolumn=+1
-
-" Set relative numbers
-set relativenumber
-
-" Font family and size
-set guifont=Fira\ Mono\ Medium\ for\ Powerline\ 12
-
-" Remove tab bar if using a gui
+" ---------------------------------------------------------------------------
+" Gui option
+" ---------------------------------------------------------------------------
+set guifont=Fira\ Mono\ Medium\ for\ Powerline\ 16
 set guioptions-=T
 
-" Set a cool color to the cursor
-au InsertLeave * hi Cursor guifg=#222 guibg=#FA9E3A
-au InsertEnter * hi Cursor guifg=#222 guibg=#FA9E3A
+source $VIMRUNTIME/mswin.vim
+behave mswin
 
-"--------------------------------------------------
-" Tab options
+" ---------------------------------------------------------------------------
+" Plugin configuration
+" ---------------------------------------------------------------------------
 
-" Copy indent from previous line
-" set autoindent
+"-------------------------
+" Airline
+let g:airline_theme='behelit'
 
-" Enable smart indent. it add additional indents whe necessary
-set smartindent
+"-------------------------
+" NERDTree
+let NERDTreeShowBookmarks = 0
+let NERDChristmasTree = 1
+let NERDTreeWinPos = "left"
+let NERDTreeHijackNetrw = 1
+let NERDTreeQuitOnOpen = 1
+let NERDTreeWinSize = 30
+let NERDTreeChDirMode = 2
+let NERDTreeDirArrows = 1
+let NERDTreeMinimalUI=1
+silent! nmap <silent> <Leader>f :NERDTreeToggle<CR>
 
-" Replace tabs with spaces
-set expandtab
+"-------------------------
+" DelimitMate
 
-" Whe you hit tab at start of line, indent added according to shiftwidth value
-set smarttab
+" Delimitmate place cursor correctly n multiline objects e.g.
+" if you press enter in {} cursor still be
+" in the middle line instead of the last
+let delimitMate_expand_cr = 1
 
-" number of spaces to use for each step of indent
-set shiftwidth=2
+" Delimitmate place cursor correctly in singleline pairs e.g.
+" if x - cursor if you press space in {x} result will be { x } instead of { x}
+let delimitMate_expand_space = 1
 
-" Number of spaces that a Tab in the file counts for
-set tabstop=2
+let delimitMate_matchpairs = "(:),[:],{:}"
 
-" Same but for editing operation (not shure what exactly does it means)
-" but in most cases tabstop and softtabstop better be the same
-set softtabstop=2
+" Closetag
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.jsx"
 
-" Round indent to multiple of 'shiftwidth'.
-" Indentation always be multiple of shiftwidth
-" Applies to  < and > command
-set shiftround
+" Delimit
+au FileType html let b:delimitMate_autoclose = 0
 
-"--------------------------------------------------
-" Search options
+" Searching
+set hlsearch                    " highlight matches
+set incsearch                   " incremental searching
+set ignorecase                  " searches are case insensitive...
+set smartcase                   " ... unless they contain at least one capital letter
 
-" Add the g flag to search/replace by default
-set gdefault
-
-" Highlight search results
-set hlsearch
-
-" Ignore case in search patterns
-set ignorecase
-
-" Override the 'ignorecase' option if the search patter ncontains upper case characters
-set smartcase
-
-" Live search. While typing a search command, show where the pattern
-set incsearch
-
-" Disable higlighting search result on Enter key
-nnoremap <silent> <cr> :nohlsearch<cr><cr>
-
-" Show matching brackets
-set showmatch
-
-" Make < and > match as well
-set matchpairs+=<:>
-
-
-"--------------------------------------------------
-" Wildmenu
-
-" Extended autocmpletion for commands
-set wildmenu
-
-" Autocmpletion hotkey
-set wildcharm=<TAB>
-
-"--------------------------------------------------
-" Folding
-
-" Enable syntax folding in javascript
-let javaScript_fold=1
-
-" No fold closed at open file
-set foldlevelstart=99
-set nofoldenable
-
-" Keymap to toggle folds with space
-nmap <space> za
-
-"--------------------------------------------------
-" Edit
-
-" Allow backspace to remove indents, newlines and old text
-set backspace=indent,eol,start
-
-" toggle paste mode on \p
-set pastetoggle=<leader>p
-
-" Add '-' as recognized word symbol. e.g dw delete all 'foo-bar' instead just 'foo'
-set iskeyword+=-
-
-" Disable backups file
-set nobackup
-
-" Disable vim common sequense for saving.
-" By defalut vim write buffer to a new file, then delete original file
-" then rename the new file.
-set nowritebackup
-
-" Disable swp files
-set noswapfile
-
-" Do not add eol at the end of file.
-set noeol
-
-"--------------------------------------------------
-" Diff Options
-
-" Display filler
-set diffopt=filler
-
-" Open diff in horizontal buffer
-set diffopt+=horizontal
-
-" Ignore changes in whitespaces characters
-set diffopt+=iwhite
-
-"--------------------------------------------------
-" Hotkeys
-
-" Replace
-nmap <leader>s :%s//<left>
-vmap <leader>s :s//<left>
-
-" Copy and paste gnome-vim
-nmap <leader>v "+gP
-vmap <leader>c "+y
-imap <leader>v <Esc>"+gP a
+" ---------------------------------------------------------------------------
+" Mappings
+" ---------------------------------------------------------------------------
 
 " Disable directions key navigation
 noremap <up>    :echoerr 'Use K to go up'<CR>
@@ -755,8 +149,71 @@ noremap <down>  :echoerr 'Use J to go down'<CR>
 noremap <left>  :echoerr 'Use H to go left'<CR>
 noremap <right> :echoerr 'Use L to go right'<CR>
 
-"--------------------------------------------------
-" Aautocmd
+" Tabnav options
+nnoremap t0  :tabfirst<CR>
+nnoremap t$  :tablast<CR>
+nnoremap th  :tabprev<CR>
+nnoremap tl  :tabnext<CR>
+nnoremap tt  :tabedit<CR>
+nnoremap td  :tabclose<CR>
+nnoremap tn  :tabnew<CR>
+
+" Tab navigation like Firefox.
+nnoremap <C-S-tab> :tabprevious<CR>
+nnoremap <C-tab>   :tabnext<CR>
+nnoremap <C-t>     :tabnew<CR>
+nnoremap <C-w>     :tabclose<CR>
+inoremap <C-S-tab> <Esc>:tabprevious<CR>i
+inoremap <C-tab>   <Esc>:tabnext<CR>i
+
+" Replace
+nmap <leader>s :%s//<left>
+vmap <leader>s :s//<left>
+
+" Fixing typos
+nmap :E :e
+nmap :W :w
+
+" \a to Silver Searcher (search in files)
+nnoremap <leader>a :Ag!<space>
+
+" ---------------------------------------------------------------------------
+" Plugins
+" ---------------------------------------------------------------------------
+
+call plug#begin('~/.vim/plugged')
+" Style and theming
+Plug 'sheerun/vim-polyglot'
+Plug 'bling/vim-airline'
+Plug 'felixhummel/setcolors.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'dag/vim-fish'
+Plug 'scrooloose/nerdtree'
+
+" Useful
+Plug 'Raimondi/delimitMate'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-repeat'
+Plug 'alvan/vim-closetag'
+Plug 'jszakmeister/vim-togglecursor'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'kien/ctrlp.vim'
+Plug 'rking/ag.vim'
+Plug 'vim-scripts/loremipsum'
+Plug 'danro/rename.vim'
+Plug 'mattn/emmet-vim'
+Plug 'chrisbra/vim-show-whitespace'
+Plug 'vim-addon-mw-utils'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'easymotion/vim-easymotion'
+call plug#end()
+
+" Colorscheme
+set background=dark
+colorscheme duotone-dark
+
+" "--------------------------------------------------
+" " Aautocmd
 
 " It executes specific command when specific events occured
 " like reading or writing file, or open or close buffer
@@ -804,27 +261,5 @@ if has("autocmd")
 
     " Group end
     augroup END
-
 endif
 
-" Set erb files to html
-autocmd BufNewFile,BufRead *.erb set filetype=html
-
-" Strip trailing whitespaces
-function! <SID>StripTrailingWhitespaces()
-    " Only strip whitespace if isn't a slim, haml or md file
-    if &filetype =~ 'slim' || &filetype =~ 'haml' || &filetype =~ 'md'
-      return
-    endif
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    %s/\s\+$//e
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-endfunction
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-autocmd BufNewFile,BufRead *.slim,*.haml setlocal list listchars=extends:>,precedes:<,eol:¬
