@@ -24,6 +24,9 @@ set matchpairs+=<:>
 " Use 256 colors in vim
 set t_Co=256
 
+" Set bash as vim default - http://stackoverflow.com/a/31002786
+set shell=/bin/bash
+
 " ---------------------------------------------------------------------------
 " UI
 " ---------------------------------------------------------------------------
@@ -84,9 +87,9 @@ set linebreak
 set nolist
 
 " ---------------------------------------------------------------------------
-" Gui option
+" Gui options
 " ---------------------------------------------------------------------------
-set guifont=Fira\ Mono\ Medium\ for\ Powerline\ 16
+set guifont=Fira\ Mono\ for\ Powerline\ 16
 set guioptions-=T
 
 source $VIMRUNTIME/mswin.vim
@@ -97,21 +100,25 @@ behave mswin
 " ---------------------------------------------------------------------------
 
 "-------------------------
-" Airline
-let g:airline_theme='behelit'
+" ctrlP
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 "-------------------------
-" NERDTree
-let NERDTreeShowBookmarks = 0
-let NERDChristmasTree = 1
-let NERDTreeWinPos = "left"
-let NERDTreeHijackNetrw = 1
-let NERDTreeQuitOnOpen = 1
-let NERDTreeWinSize = 30
-let NERDTreeChDirMode = 2
-let NERDTreeDirArrows = 1
-let NERDTreeMinimalUI=1
-silent! nmap <silent> <Leader>f :NERDTreeToggle<CR>
+" VimFiler
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '*'
+
+silent! nmap <silent> <Leader>f :VimFilerExplorer<CR>
+
+"-------------------------
+" Airline
+let g:airline_theme='behelit'
 
 "-------------------------
 " DelimitMate
@@ -127,11 +134,11 @@ let delimitMate_expand_space = 1
 
 let delimitMate_matchpairs = "(:),[:],{:}"
 
-" Closetag
-let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.jsx"
-
 " Delimit
 au FileType html let b:delimitMate_autoclose = 0
+
+" Closetag
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.jsx"
 
 " Searching
 set hlsearch                    " highlight matches
@@ -149,8 +156,8 @@ noremap <down>  :echoerr 'Use J to go down'<CR>
 noremap <left>  :echoerr 'Use H to go left'<CR>
 noremap <right> :echoerr 'Use L to go right'<CR>
 
-" Tabnav options
-nnoremap t0  :tabfirst<CR>
+" Tab keyboard navigation options
+nnoremap t^  :tabfirst<CR>
 nnoremap t$  :tablast<CR>
 nnoremap th  :tabprev<CR>
 nnoremap tl  :tabnext<CR>
@@ -158,7 +165,7 @@ nnoremap tt  :tabedit<CR>
 nnoremap td  :tabclose<CR>
 nnoremap tn  :tabnew<CR>
 
-" Tab navigation like Firefox.
+" Tab navigation like Firefox
 nnoremap <C-S-tab> :tabprevious<CR>
 nnoremap <C-tab>   :tabnext<CR>
 nnoremap <C-t>     :tabnew<CR>
@@ -185,27 +192,29 @@ call plug#begin('~/.vim/plugged')
 " Style and theming
 Plug 'sheerun/vim-polyglot'
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'felixhummel/setcolors.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'dag/vim-fish'
-Plug 'scrooloose/nerdtree'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimfiler.vim'
 
 " Useful
+Plug 'airblade/vim-gitgutter'
 Plug 'Raimondi/delimitMate'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'alvan/vim-closetag'
 Plug 'jszakmeister/vim-togglecursor'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/ctrlp.vim'
 Plug 'rking/ag.vim'
 Plug 'vim-scripts/loremipsum'
 Plug 'danro/rename.vim'
 Plug 'mattn/emmet-vim'
 Plug 'chrisbra/vim-show-whitespace'
-Plug 'vim-addon-mw-utils'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
+Plug 'motemen/git-vim'
 call plug#end()
 
 " Colorscheme
@@ -250,10 +259,6 @@ if has("autocmd")
         autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
         autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
-        " Disable vertical line at max string length in NERDTree
-        autocmd FileType * setlocal colorcolumn=+1
-        autocmd FileType nerdtree setlocal colorcolumn=""
-
         " Not enable Folding - it really slow on large files, uses plugin vim-javascript-syntax
         " au FileType javascript* call JavaScriptFold()
         au FileType html let b:loaded_delimitMate = 1
@@ -262,4 +267,3 @@ if has("autocmd")
     " Group end
     augroup END
 endif
-
