@@ -4,13 +4,9 @@
 ## Installation
 **curl**
 ```bash
-curl -o- https://raw.githubusercontent.com/filipelinhares/dotvim/master/install.sh | bash
+curl -o - https://raw.githubusercontent.com/filipelinhares/dotvim/master/install.sh | sh
 ```
-
-**wget**
-```bash
-wget -qo- https://raw.githubusercontent.com/filipelinhares/dotvim/master/install.sh | bash
-```
+> Don't worry, it will back up your existing vim configuration.
 
 ## Font
 [Fira Mono for Powerline](https://github.com/powerline/fonts/tree/master/FiraMono)

@@ -52,8 +52,6 @@ set colorcolumn=+1 " higlight column right after max textwidth
 set nostartofline "The cursor should stay where you leave it, instead of moving to the first non blank of the line
 set smarttab
 
-set listchars=tab:»\ ,eol:¬,trail:·
-
 "--------------------------------------------------
 " Splitpanels options
 
@@ -86,7 +84,8 @@ set formatoptions=n
 
 set wrap
 set linebreak
-set nolist
+set list
+set listchars=tab:»\ ,eol:¬,trail:·
 
 " ---------------------------------------------------------------------------
 " Gui options
@@ -268,7 +267,11 @@ call plug#end()
 
 " Colorscheme
 set background=dark
-colorscheme duotone-dark
+
+try
+  colorscheme duotone-dark
+catch
+endtry
 
 " "--------------------------------------------------
 " " Aautocmd
