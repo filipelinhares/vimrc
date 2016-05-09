@@ -52,6 +52,8 @@ set colorcolumn=+1 " higlight column right after max textwidth
 set nostartofline "The cursor should stay where you leave it, instead of moving to the first non blank of the line
 set smarttab
 
+set listchars=tab:»\ ,eol:¬,trail:·
+
 "--------------------------------------------------
 " Splitpanels options
 
@@ -90,7 +92,20 @@ set nolist
 " Gui options
 " ---------------------------------------------------------------------------
 set guifont=Fira\ Mono\ for\ Powerline\ 16
-set guioptions-=T
+
+" Don't blink normal mode cursor
+set guicursor=n-v-c:block-Cursor
+set guicursor+=n-v-c:blinkon0
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+  set guioptions-=T
+  set guioptions-=e
+  set guitablabel=%M\ %t
+endif
+
+" Add a bit extra margin to the left
+set foldcolumn=1
 
 source $VIMRUNTIME/mswin.vim
 behave mswin
@@ -156,6 +171,14 @@ imap <expr><TAB>
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
+" git-vim
+nmap <leader>gst :GitStatus<CR>
+nmap <leader>glog :GitLog<CR>
+nmap <leader>gd :GitDiff<CR>
+
+" Ag
+nnoremap <leader>a :Ag!<space>
+
 " ---------------------------------------------------------------------------
 " Mappings
 " ---------------------------------------------------------------------------
@@ -191,8 +214,16 @@ vmap <leader>s :s//<left>
 nmap :E :e
 nmap :W :w
 
-" \a to Silver Searcher (search in files)
-nnoremap <leader>a :Ag!<space>
+" Spelling
+map <leader>ss :setlocal spell!<cr>
+
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :call VisualSelection('f', '')<CR>
+vnoremap <silent> # :call VisualSelection('b', '')<CR>
+
+" Clear last search
+silent! nmap <silent> <Leader>/ :noh<CR>
 
 " ---------------------------------------------------------------------------
 " Plugins
@@ -216,6 +247,7 @@ Plug 'filipelinhares/vim-css-comments'
 Plug 'filipelinhares/vim-mini-snippets'
 
 " Useful
+Plug 'editorconfig/editorconfig-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'Raimondi/delimitMate'
 Plug 'tomtom/tcomment_vim'
@@ -231,6 +263,7 @@ Plug 'chrisbra/vim-show-whitespace'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
 Plug 'motemen/git-vim'
+Plug 'moll/vim-node'
 call plug#end()
 
 " Colorscheme
@@ -283,4 +316,23 @@ if has("autocmd")
     " Group end
     augroup END
 endif
+
+" "--------------------------------------------------
+" " Trailing white space
+
+" Delete trailing white space on save
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+
+augroup whitespace
+  autocmd!
+  autocmd BufWrite *.py :call DeleteTrailingWS()
+  autocmd BufWrite *.coffee :call DeleteTrailingWS()
+  autocmd BufWrite *.rb :call DeleteTrailingWS()
+augroup END
+
+silent! nmap <silent> <Leader>w :call DeleteTrailingWS()<CR>
 
