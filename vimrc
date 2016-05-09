@@ -105,6 +105,7 @@ let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 "-------------------------
 " VimFiler
+
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 
@@ -145,6 +146,15 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
+
+" Snippets
+" SuperTab like snippets behavior.
+imap <expr><TAB>
+\ pumvisible() ? "\<C-n>" :
+\ neosnippet#expandable_or_jumpable() ?
+\    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " ---------------------------------------------------------------------------
 " Mappings
@@ -198,6 +208,12 @@ Plug 'flazz/vim-colorschemes'
 Plug 'dag/vim-fish'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
+
+" Snippets
+Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neosnippet'
+Plug 'filipelinhares/vim-css-comments'
+Plug 'filipelinhares/vim-mini-snippets'
 
 " Useful
 Plug 'airblade/vim-gitgutter'
@@ -267,3 +283,4 @@ if has("autocmd")
     " Group end
     augroup END
 endif
+
