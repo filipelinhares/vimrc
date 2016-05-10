@@ -41,4 +41,4 @@ if [ ! -e $HOME/.vim/plugged ]; then
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-msg "Now open you vim and type :PlugInstall"
+vim +PlugInstall +qa
