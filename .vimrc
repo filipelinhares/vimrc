@@ -1,3 +1,61 @@
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" flp's vimrc
+"
+" => General
+" => UI
+" => Text formating
+" => Gui Options
+" => Plugins configuration
+" => Keymaps
+" => Plugins
+" => Autocmd
+" => White Space
+
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" Plugins
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+call plug#begin('~/.vim/plugged')
+Plug 'sheerun/vim-polyglot'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'felixhummel/setcolors.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'dag/vim-fish'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimfiler.vim'
+Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neosnippet'
+Plug 'filipelinhares/vim-css-comments'
+Plug 'vim-scripts/loremipsum'
+Plug 'filipelinhares/vim-mini-snippets'
+Plug 'bkad/CamelCaseMotion'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-repeat'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'Raimondi/delimitMate'
+Plug 'tomtom/tcomment_vim'
+Plug 'alvan/vim-closetag'
+Plug 'jszakmeister/vim-togglecursor'
+Plug 'kien/ctrlp.vim'
+Plug 'rking/ag.vim'
+Plug 'danro/rename.vim'
+Plug 'mattn/emmet-vim'
+Plug 'chrisbra/vim-show-whitespace'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'easymotion/vim-easymotion'
+Plug 'motemen/git-vim'
+Plug 'moll/vim-node'
+call plug#end()
+
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" General
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 " Enable Indent in plugins
 filetype plugin indent on
 syntax enable
@@ -27,9 +85,15 @@ set t_Co=256
 " Set bash as vim default - http://stackoverflow.com/a/31002786
 set shell=/bin/bash
 
-" ---------------------------------------------------------------------------
+" Searching
+set hlsearch " highlight matches
+set incsearch " incremental searching
+set ignorecase " searches are case insensitive...
+set smartcase " ... unless they contain at least one capital letter
+
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " UI
-" ---------------------------------------------------------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 set title
 set encoding=utf-8
 set autoindent
@@ -41,6 +105,7 @@ set wildmenu
 set wildmode=list:longest
 set wildcharm=<TAB> " Autocmpletion hotkey
 set novisualbell
+set noerrorbells
 set cursorline
 set ttyfast
 set backspace=indent,eol,start "allow backspacing over everything in insert mode
@@ -52,10 +117,17 @@ set colorcolumn=+1 " higlight column right after max textwidth
 set nostartofline "The cursor should stay where you leave it, instead of moving to the first non blank of the line
 set smarttab
 
-"--------------------------------------------------
+" Colorscheme
+set background=dark
+
+try
+  colorscheme railscasts
+endtry
+
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Splitpanels options
 
-" Hotkeys
+" Move between panels
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -65,13 +137,14 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
-" some stuff to get the mouse going in term
+" Some stuff to get the mouse going in term
 set mouse=a
 set ttymouse=xterm2
 
-" ---------------------------------------------------------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Text Formatting
-" ---------------------------------------------------------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -87,9 +160,11 @@ set linebreak
 set list
 set listchars=tab:»\ ,eol:¬,trail:·
 
-" ---------------------------------------------------------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Gui options
-" ---------------------------------------------------------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+" Set font family and size
 set guifont=Fira\ Mono\ for\ Powerline\ 16
 
 " Don't blink normal mode cursor
@@ -99,6 +174,7 @@ set guicursor+=n-v-c:blinkon0
 " Set extra options when running in GUI mode
 if has("gui_running")
   set guioptions-=T
+  set guioptions-=m " Hide menubar
   set guioptions-=e
   set guitablabel=%M\ %t
 endif
@@ -109,17 +185,16 @@ set foldcolumn=1
 source $VIMRUNTIME/mswin.vim
 behave mswin
 
-" ---------------------------------------------------------------------------
-" Plugin configuration
-" ---------------------------------------------------------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" Plugins configuration
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-"-------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " ctrlP
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
-"-------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " VimFiler
-
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 
@@ -129,39 +204,32 @@ let g:vimfiler_tree_closed_icon = '▸'
 let g:vimfiler_file_icon = '-'
 let g:vimfiler_marked_file_icon = '*'
 
+" Show VimFiler with \f
 silent! nmap <silent> <Leader>f :VimFilerExplorer<CR>
 
-"-------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Airline
 let g:airline_theme='behelit'
 
-"-------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " DelimitMate
-
-" Delimitmate place cursor correctly n multiline objects e.g.
-" if you press enter in {} cursor still be
-" in the middle line instead of the last
 let delimitMate_expand_cr = 1
+let delimitMate_matchpairs = "(:),[:],{:}"
 
-" Delimitmate place cursor correctly in singleline pairs e.g.
 " if x - cursor if you press space in {x} result will be { x } instead of { x}
 let delimitMate_expand_space = 1
 
-let delimitMate_matchpairs = "(:),[:],{:}"
-
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Delimit
 au FileType html let b:delimitMate_autoclose = 0
 
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Closetag
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.jsx"
 
-" Searching
-set hlsearch                    " highlight matches
-set incsearch                   " incremental searching
-set ignorecase                  " searches are case insensitive...
-set smartcase                   " ... unless they contain at least one capital letter
-
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Snippets
+
 " SuperTab like snippets behavior.
 imap <expr><TAB>
 \ pumvisible() ? "\<C-n>" :
@@ -170,17 +238,45 @@ imap <expr><TAB>
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " git-vim
 nmap <leader>gst :GitStatus<CR>
 nmap <leader>glog :GitLog<CR>
 nmap <leader>gd :GitDiff<CR>
 
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Ag
 nnoremap <leader>a :Ag!<space>
 
-" ---------------------------------------------------------------------------
-" Mappings
-" ---------------------------------------------------------------------------
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" camelCase motion
+map <silent> w <Plug>CamelCaseMotion_w
+map <silent> b <Plug>CamelCaseMotion_b
+map <silent> e <Plug>CamelCaseMotion_e
+map <silent> ge <Plug>CamelCaseMotion_ge
+
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" Conversion
+
+" Convert symbol to string
+nnoremap <silent> <leader>2s F:r"Ea"<ESC>
+" Convert string to symbol
+nnoremap <silent> <leader>2y F"r:,x
+
+" Convert name to snake_case
+nmap <leader>2_ cr_
+" Convert name to camelcase
+nmap <leader>2c crc
+" Convert name to MixedCase
+nmap <leader>2m crm
+" Convert name to SNAKE_UPPERCASE
+nmap <leader>2u cru
+" Convert name to dash-case
+nmap <leader>2- cr-
+
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" Keymap
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 " Disable directions key navigation
 noremap <up>    :echoerr 'Use K to go up'<CR>
@@ -224,58 +320,9 @@ vnoremap <silent> # :call VisualSelection('b', '')<CR>
 " Clear last search
 silent! nmap <silent> <Leader>/ :noh<CR>
 
-" ---------------------------------------------------------------------------
-" Plugins
-" ---------------------------------------------------------------------------
-
-call plug#begin('~/.vim/plugged')
-" Style and theming
-Plug 'sheerun/vim-polyglot'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'felixhummel/setcolors.vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'dag/vim-fish'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimfiler.vim'
-
-" Snippets
-Plug 'Shougo/neocomplete.vim'
-Plug 'Shougo/neosnippet'
-Plug 'filipelinhares/vim-css-comments'
-Plug 'filipelinhares/vim-mini-snippets'
-
-" Useful
-Plug 'editorconfig/editorconfig-vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'Raimondi/delimitMate'
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-repeat'
-Plug 'alvan/vim-closetag'
-Plug 'jszakmeister/vim-togglecursor'
-Plug 'kien/ctrlp.vim'
-Plug 'rking/ag.vim'
-Plug 'vim-scripts/loremipsum'
-Plug 'danro/rename.vim'
-Plug 'mattn/emmet-vim'
-Plug 'chrisbra/vim-show-whitespace'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'easymotion/vim-easymotion'
-Plug 'motemen/git-vim'
-Plug 'moll/vim-node'
-call plug#end()
-
-" Colorscheme
-set background=dark
-
-try
-  colorscheme duotone-dark
-catch
-endtry
-
-" "--------------------------------------------------
-" " Aautocmd
-
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" Autocmd
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " It executes specific command when specific events occured
 " like reading or writing file, or open or close buffer
 if has("autocmd")
@@ -293,9 +340,12 @@ if has("autocmd")
           \| exe "normal g'\"" | endif
 
         " Set filetypes aliases
+
+        " Toggle to aliases less/scss to css
+        " au FileType scss set ft=scss.css
+        " au FileType less set ft=less.css
+
         au FileType htmldjango set ft=html.htmldjango
-        au FileType scss set ft=scss.css
-        au FileType less set ft=less.css
         au BufWinEnter * if line2byte(line("$") + 1) > 100000 | syntax clear | endif
         au BufRead,BufNewFile *.js set ft=javascript.javascript-jquery
         au BufRead,BufNewFile *.json set ft=json
@@ -320,8 +370,9 @@ if has("autocmd")
     augroup END
 endif
 
-" "--------------------------------------------------
-" " Trailing white space
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+" White space
+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 " Delete trailing white space on save
 func! DeleteTrailingWS()
