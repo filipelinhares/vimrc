@@ -28,9 +28,9 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet'
+Plug 'filipelinhares/vim-mini-snippets'
 Plug 'filipelinhares/vim-css-comments'
 Plug 'vim-scripts/loremipsum'
-Plug 'filipelinhares/vim-mini-snippets'
 Plug 'bkad/CamelCaseMotion'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
@@ -39,7 +39,6 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'Raimondi/delimitMate'
 Plug 'tomtom/tcomment_vim'
-Plug 'alvan/vim-closetag'
 Plug 'jszakmeister/vim-togglecursor'
 Plug 'kien/ctrlp.vim'
 Plug 'rking/ag.vim'
@@ -50,6 +49,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
 Plug 'motemen/git-vim'
 Plug 'moll/vim-node'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'gregsexton/MatchTag'
 call plug#end()
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -121,7 +123,8 @@ set smarttab
 set background=dark
 
 try
-  colorscheme railscasts
+  colorscheme wombat
+  hi Cursor guifg=#222222 guibg=#ffff00 gui=bold
 endtry
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -157,15 +160,21 @@ set formatoptions=n
 
 set wrap
 set linebreak
+
+" Show trailing whitespace
 set list
-set listchars=tab:»\ ,eol:¬,trail:·
+" But only interesting whitespace
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Gui options
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 " Set font family and size
-set guifont=Fira\ Mono\ for\ Powerline\ 16
+set guifont=Hack\ 15
 
 " Don't blink normal mode cursor
 set guicursor=n-v-c:block-Cursor
@@ -178,9 +187,6 @@ if has("gui_running")
   set guioptions-=e
   set guitablabel=%M\ %t
 endif
-
-" Add a bit extra margin to the left
-set foldcolumn=1
 
 source $VIMRUNTIME/mswin.vim
 behave mswin
@@ -204,6 +210,9 @@ let g:vimfiler_tree_closed_icon = '▸'
 let g:vimfiler_file_icon = '-'
 let g:vimfiler_marked_file_icon = '*'
 
+" Ignore files
+let g:vimfiler_ignore_pattern = ['^\.git$', '^\.DS_Store$', '^\node_modules$']
+
 " Show VimFiler with \f
 silent! nmap <silent> <Leader>f :VimFilerExplorer<CR>
 
@@ -222,10 +231,6 @@ let delimitMate_expand_space = 1
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Delimit
 au FileType html let b:delimitMate_autoclose = 0
-
-"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-" Closetag
-let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.jsx"
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Snippets
@@ -277,6 +282,13 @@ nmap <leader>2- cr-
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Keymap
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+" Leader now is Space
+let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
+
+" Force redraw
+map <silent> <leader>r :redraw!<CR>
 
 " Disable directions key navigation
 noremap <up>    :echoerr 'Use K to go up'<CR>
