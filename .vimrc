@@ -1,13 +1,13 @@
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " flp's vimrc
 "
+" => Plugins
 " => General
 " => UI
 " => Text formating
 " => Gui Options
 " => Plugins configuration
 " => Keymaps
-" => Plugins
 " => Autocmd
 " => White Space
 
@@ -57,6 +57,10 @@ call plug#end()
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " General
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+" Leader now is Space
+let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
 
 " Enable Indent in plugins
 filetype plugin indent on
@@ -282,10 +286,6 @@ nmap <leader>2- cr-
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Keymap
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-" Leader now is Space
-let mapleader = "\<Space>"
-let g:mapleader = "\<Space>"
 
 " Force redraw
 map <silent> <leader>r :redraw!<CR>

@@ -11,7 +11,7 @@ curl -o - https://raw.githubusercontent.com/filipelinhares/dotvim/master/install
 ## Keymaps
 | Command | Action |
 |--------|--------|
-|<kbd>leader+\</kbd>|VimFiler|
+|<kbd>leader+f</kbd>|VimFiler|
 |<kbd>ctrl+p</kbd>|Fuzzy Search|
 |<kbd>leader+gst</kbd>|GitStatus|
 |<kbd>leader+glog</kbd>|GitLog|
@@ -41,8 +41,8 @@ curl -o - https://raw.githubusercontent.com/filipelinhares/dotvim/master/install
 - and [more](./.vimrc)...
 
 ## Theme
-- [Fira Mono for Powerline](https://github.com/powerline/fonts/tree/master/FiraMono)
+- [Hack](http://sourcefoundry.org/hack/)
 - [Colorschemes](https://github.com/flazz/vim-colorschemes/tree/master/colors)
 
 ## License
-[MIT](LICENSE.md) © Filipe LInhares
+[MIT](LICENSE.md) © Filipe Linhares
