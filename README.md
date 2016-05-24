@@ -29,6 +29,8 @@ curl -o - https://raw.githubusercontent.com/filipelinhares/dotvim/master/install
 |<kbd>leader+2m</kbd>|Convert string under cursor to MixedCaseg|
 |<kbd>leader+2u</kbd>|Convert string under cursor to SNAKE_UPPERCASE|
 |<kbd>leader+2-</kbd>|Convert string under cursor to dash-case|
+|<kbd>alt+a-</kbd>|Increment number by 1|
+|<kbd>alt+i-</kbd>|Decrement number by 1|
 
 ### Common keys
 | Command | Action |

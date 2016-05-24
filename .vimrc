@@ -40,7 +40,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Raimondi/delimitMate'
 Plug 'tomtom/tcomment_vim'
 Plug 'jszakmeister/vim-togglecursor'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rking/ag.vim'
 Plug 'danro/rename.vim'
 Plug 'mattn/emmet-vim'
@@ -52,6 +52,9 @@ Plug 'moll/vim-node'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
 Plug 'gregsexton/MatchTag'
+Plug 'mhinz/vim-startify'
+Plug 'shinokada/dragvisuals.vim'
+Plug 'dkprice/vim-easygrep'
 call plug#end()
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -96,6 +99,17 @@ set hlsearch " highlight matches
 set incsearch " incremental searching
 set ignorecase " searches are case insensitive...
 set smartcase " ... unless they contain at least one capital letter
+
+nnoremap <silent> n   n:call HLNext(0.4)<cr>
+nnoremap <silent> N   N:call HLNext(0.4)<cr>
+
+function! HLNext (blinktime)
+  set invcursorline
+  redraw
+  exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
+  set invcursorline
+  redraw
+endfunction
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " UI
@@ -172,13 +186,12 @@ if &listchars ==# 'eol:$'
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 
-
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Gui options
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 " Set font family and size
-set guifont=Hack\ 15
+set guifont=Mononoki\ 18
 
 " Don't blink normal mode cursor
 set guicursor=n-v-c:block-Cursor
@@ -198,6 +211,14 @@ behave mswin
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Plugins configuration
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+vmap  <expr>  <S-L> DVB_Drag('right')
+vmap  <expr>  <S-J> DVB_Drag('down')
+vmap  <expr>  <S-H> DVB_Drag('left')
+vmap  <expr>  <S-K> DVB_Drag('up')
+vmap  <expr>  D DVB_Duplicate()
+
+let g:DVB_TrimWS = 1
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " ctrlP
@@ -286,6 +307,10 @@ nmap <leader>2- cr-
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Keymap
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+" Increment and decrement numbers
+:nnoremap <A-a> <C-a>
+:nnoremap <A-i> <C-x>
 
 " Force redraw
 map <silent> <leader>r :redraw!<CR>
