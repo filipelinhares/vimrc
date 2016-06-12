@@ -52,7 +52,6 @@ Plug 'moll/vim-node'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
 Plug 'gregsexton/MatchTag'
-Plug 'mhinz/vim-startify'
 Plug 'shinokada/dragvisuals.vim'
 Plug 'dkprice/vim-easygrep'
 call plug#end()
@@ -337,6 +336,18 @@ nnoremap <C-t>     :tabnew<CR>
 nnoremap <C-w>     :tabclose<CR>
 inoremap <C-S-tab> <Esc>:tabprevious<CR>i
 inoremap <C-tab>   <Esc>:tabnext<CR>i
+
+" Alt-nth to navigate between tabs
+nnoremap <A-1> 1gt
+nnoremap <A-2> 2gt
+nnoremap <A-3> 3gt
+nnoremap <A-4> 4gt
+nnoremap <A-5> 5gt
+nnoremap <A-6> 6gt
+nnoremap <A-7> 7gt
+nnoremap <A-8> 8gt
+nnoremap <A-9> 9gt
+nnoremap <A-0> 10gt
 
 " Replace
 nmap <leader>s :%s//<left>
