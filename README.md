@@ -46,5 +46,12 @@ curl -o - https://raw.githubusercontent.com/filipelinhares/dotvim/master/install
 - [Hack](http://sourcefoundry.org/hack/)
 - [Colorschemes](https://github.com/flazz/vim-colorschemes/tree/master/colors)
 
+## Fork and customize
+
+1. :cyclone: Clone the repository
+2. :pencil: Change the [folder name](https://github.com/filipelinhares/dotvim/blob/master/install.sh#L14)
+3. :pencil: Change the [git endpoint](https://github.com/filipelinhares/dotvim/blob/master/install.sh#L18) to your repository
+4. :smile: Have fun with your new `vimrc`
+
 ## License
 [MIT](LICENSE.md) © Filipe Linhares
