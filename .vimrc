@@ -23,7 +23,6 @@ Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'felixhummel/setcolors.vim'
 Plug 'flazz/vim-colorschemes'
-Plug 'dag/vim-fish'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
 Plug 'Shougo/neocomplete.vim'
@@ -41,10 +40,10 @@ Plug 'Raimondi/delimitMate'
 Plug 'tomtom/tcomment_vim'
 Plug 'jszakmeister/vim-togglecursor'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'rking/ag.vim'
+" Plug 'rking/ag.vim'
+Plug 'mileszs/ack.vim'
 Plug 'danro/rename.vim'
 Plug 'mattn/emmet-vim'
-Plug 'chrisbra/vim-show-whitespace'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
 Plug 'motemen/git-vim'
@@ -204,6 +203,7 @@ if has("gui_running")
   set guitablabel=%M\ %t
 endif
 
+
 source $VIMRUNTIME/mswin.vim
 behave mswin
 
@@ -275,7 +275,11 @@ nmap <leader>gd :GitDiff<CR>
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " Ag
-nnoremap <leader>a :Ag!<space>
+nnoremap <leader>a :Ack!<space>
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
 
 "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 " camelCase motion
