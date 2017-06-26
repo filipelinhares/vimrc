@@ -10,8 +10,6 @@ curl -o - https://raw.githubusercontent.com/filipelinhares/dotvim/master/install
 ```
 > Don't worry, it will back up your existing vim configuration.
 
-
-
 ## Keymaps
 
 | Command              | Action                                   |
@@ -28,14 +26,9 @@ curl -o - https://raw.githubusercontent.com/filipelinhares/dotvim/master/install
 - **Firefox like tab navigation supported**
 - and [more](./.vimrc)...
 
-
-
-
 ## Colors
 
-![Group (2)](/Users/filipe/Downloads/Group (2).png)
-
-
+![Screenshots](images/screenshot.png)
 
 ``` viml
 set background=dark
@@ -48,8 +41,6 @@ set background=[dark | light]
 let g:airline_theme='one'
 colorscheme one
 ```
-
-
 
 ## Fork and customize
 
