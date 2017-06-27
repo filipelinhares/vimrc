@@ -14,11 +14,11 @@ done
 endpath="$HOME/.flp-vim"
 
 if [ ! -e $endpath/.git ]; then
-  msg "Cloning filipelinhares/dotvim"
-  git clone https://github.com/filipelinhares/dotvim.git $endpath
+  msg "Cloning filipelinhares/vimrc"
+  git clone https://github.com/filipelinhares/vimrc.git $endpath
 else
   msg "Existing installation detected"
-  msg "Updating from filipelinhares/dotvim"
+  msg "Updating from filipelinhares/vimrc"
   cd $endpath && git pull
 fi
 
@@ -43,3 +43,4 @@ fi
 
 msg "Installing plugins"
 vim +PlugInstall +qa
+
