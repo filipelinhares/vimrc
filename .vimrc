@@ -1,39 +1,48 @@
 " flp's vimrc
 
+set nocompatible
 set fileencoding=utf-8
 
 
 " Plugins
 
 call plug#begin('~/.vim/plugged')
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimfiler.vim'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Raimondi/delimitMate'
+Plug 'SirVer/ultisnips'
+Plug 'fholgado/minibufexpl.vim'
+Plug 'filipelinhares/snipper'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'Yggdroot/indentLine'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
+Plug 'airblade/vim-gitgutter'
+Plug 'elzr/vim-json'
+Plug 'danro/rename.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'ervandew/supertab'
+Plug 'gregsexton/MatchTag'
+Plug 'itchyny/vim-cursorword'
+Plug 'itchyny/vim-qfedit'
+Plug 'kshenoy/vim-signature'
+Plug 'moll/vim-node'
+Plug 'rakr/vim-one'
+Plug 'rking/ag.vim'
+Plug 'rstacruz/vim-fastunite'
+Plug 'sheerun/vim-polyglot'
+Plug 'shinokada/dragvisuals.vim'
+Plug 'sjl/gundo.vim'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-commentary'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'Raimondi/delimitMate'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/vimfiler.vim'
-Plug 'rstacruz/vim-fastunite'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'easymotion/vim-easymotion'
-Plug 'gregsexton/MatchTag'
-Plug 'shinokada/dragvisuals.vim'
-Plug 'rking/ag.vim'
-Plug 'Chun-Yang/vim-action-ag'
-Plug 'sheerun/vim-polyglot'
-Plug 'majutsushi/tagbar'
-Plug 'danro/rename.vim'
-Plug 'rakr/vim-one'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/Wombat'
+Plug 'w0rp/ale'
 Plug 'yuttie/comfortable-motion.vim'
 call plug#end()
 
@@ -50,7 +59,12 @@ syntax on
 set iskeyword+=-
 set matchpairs+=<:>
 set shell=/bin/bash
-set hlsearch incsearch ignorecase smartcase
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set shortmess+=T
+set relativenumber
 set autoindent
 set title
 set smartindent
@@ -71,14 +85,15 @@ set smarttab
 
 " GUI
 
+set guifont=Menlo:h16
+
+set background=dark
+colorscheme wombat
+
 if has("gui_macvim")
-  set guifont=Fira\ Mono:h18
+  hi Cursor guifg=#222222 guibg=#91c1f8 gui=bold
 
-  set background=dark
-  let g:airline_theme='wombat'
-  colorscheme wombat
-
- " Remove scroll bars
+  " Remove scroll bars
   set guioptions-=t
   set guioptions-=r
   set guioptions-=L
@@ -90,38 +105,27 @@ if has("gui_macvim")
   set macligatures
   set ttyfast
   set linespace=1
+  set noshowmode
 
   " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
-  " the right side. Ctrl-Shift-Tab goes the other way.
-  noremap <C-Tab> :tabnext<cr>
-  noremap <C-S-Tab> :tabprev<cr>
-
-  " Switch to specific tab numbers with Command-number
-  noremap <D-1> :tabn 1<cr>
-  noremap <D-2> :tabn 2<cr>
-  noremap <D-3> :tabn 3<cr>
-  noremap <D-4> :tabn 4<cr>
-  noremap <D-5> :tabn 5<cr>
-  noremap <D-6> :tabn 6<cr>
-  noremap <D-7> :tabn 7<cr>
-  noremap <D-8> :tabn 8<cr>
-  noremap <D-9> :tabn 9<cr>
-
-  " Command-0 goes to the last tab
-  noremap <D-0> :tablast<cr>
+  noremap <C-Tab> :tabnext<CR>
+  noremap <C-S-Tab> :tabprev<CR>
+  noremap <C-W> :bdelete<CR>
 endif
 
 
 " Splitpanels options
+
 set splitbelow
 set splitright
 
 " Easy navigation between splits
 " https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+
+nnoremap <leader>j <C-W><C-J>
+nnoremap <leader>k <C-W><C-K>
+nnoremap <leader>l <C-W><C-L>
+nnoremap <leader>h <C-W><C-H>
 
 
 " Text Formatting
@@ -157,7 +161,49 @@ set undofile
 set undodir=$HOME/.vim/files/undo/
 
 
+" Fold
+
+set foldmethod=indent
+
+
 " Plugins configuration
+
+" Autocompletes
+
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:UltiSnipsExpandTrigger="<Tab>"
+
+
+" Ale
+
+let g:ale_linters = {
+\   'javascript': ['jshint'],
+\}
+
+
+" Custom linting symbols
+
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '●'
+
+
+" Airline
+
+let g:airline#extensions#ale#enabled = 1
+let g:airline_theme='wombat'
+
+
+" MiniBufLine
+
+let g:miniBufExplUseSingleClick = 1
+let g:miniBufExplBRSplit = 0
+let g:miniBufExplStatusLineText = ' '
+
+
+" Visual drag
 
 vmap  <expr>  <S-L> DVB_Drag('right')
 vmap  <expr>  <S-J> DVB_Drag('down')
@@ -174,9 +220,13 @@ map <C-p> [unite]p
 nmap <leader>p [unite]p
 
 
+" Gundo
+
+nnoremap <F5> :GundoToggle<CR>
+
 " GitGutter
 
-nmap <leader>g :GitGutterToggle<cr>
+nmap <leader>g :GitGutterToggle<CR>
 
 
 " DelimitMate
@@ -193,19 +243,18 @@ nnoremap <leader>a :Ag!<space>
 let g:ag_working_path_mode="r"
 
 
-" Vimfilerp
+" Vimfiler
 
 let g:vimfiler_as_default_explorer = 1
-nmap <leader>f :VimFiler<CR>
+let g:vimfiler_safe_mode_by_default = 0
+nmap <leader>f :VimFilerExplorer<CR>
 
-
-" Tagbar
-
-nmap <F8> :TagbarToggle<CR>
+" Disable space key in Vimfiler
+autocmd FileType vimfiler nunmap <buffer> <Space>
+autocmd FileType vimfiler nmap <buffer> <S-Space> <Plug>(vimfiler_toggle_mark_current_line)
 
 
 " Keymaps
-
 
 " Conversion
 
@@ -220,17 +269,18 @@ nmap <leader>2u cru
 " to dash-case
 nmap <leader>2- cr-
 
+
 " Force redraw
 
-map <leader>r :redraw!<cr>
+map <leader>r :redraw!<CR>
 
 
 " Disable directions key navigation
 
-noremap <up>    :echoerr 'Use K to go up'<cr>
-noremap <down>  :echoerr 'Use J to go down'<cr>
-noremap <left>  :echoerr 'Use H to go left'<cr>
-noremap <right> :echoerr 'Use L to go right'<cr>
+noremap <up>    :echoerr 'Use K to go up'<CR>
+noremap <down>  :echoerr 'Use J to go down'<CR>
+noremap <left>  :echoerr 'Use H to go left'<CR>
+noremap <right> :echoerr 'Use L to go right'<CR>
 
 
 " Replace
@@ -241,12 +291,12 @@ vmap <leader>s :s//<left>
 
 " Spelling
 
-map <leader>ss :setlocal spell!<cr>
+map <leader>ss :setlocal spell!<CR>
 
 
 " Clear last search
 
-nmap <leader>/ :noh<cr>
+nmap <leader>/ :noh<CR>
 
 
 " Fixing typos
