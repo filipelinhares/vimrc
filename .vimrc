@@ -3,7 +3,6 @@
 set nocompatible
 set fileencoding=utf-8
 
-
 " Plugins
 
 call plug#begin('~/.vim/plugged')
@@ -12,11 +11,11 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Raimondi/delimitMate'
-Plug 'SirVer/ultisnips'
 Plug 'fholgado/minibufexpl.vim'
-Plug 'filipelinhares/snipper'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'Yggdroot/indentLine'
+Plug 'alvan/vim-closetag'
+Plug 'rhysd/conflict-marker.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'elzr/vim-json'
 Plug 'danro/rename.vim'
@@ -25,27 +24,23 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
 Plug 'gregsexton/MatchTag'
 Plug 'itchyny/vim-cursorword'
-Plug 'itchyny/vim-qfedit'
 Plug 'kshenoy/vim-signature'
 Plug 'moll/vim-node'
 Plug 'rakr/vim-one'
+Plug 'matze/vim-move'
 Plug 'rking/ag.vim'
 Plug 'rstacruz/vim-fastunite'
 Plug 'sheerun/vim-polyglot'
-Plug 'shinokada/dragvisuals.vim'
-Plug 'sjl/gundo.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/Wombat'
 Plug 'w0rp/ale'
 Plug 'yuttie/comfortable-motion.vim'
+Plug 'fatih/vim-go'
 call plug#end()
-
 
 " Leader now is Space
 
@@ -82,50 +77,36 @@ set number
 set nostartofline
 set smarttab
 
-
 " GUI
 
-set guifont=Menlo:h16
-
-set background=dark
-colorscheme wombat
+set background=light
+colorscheme one
 
 if has("gui_macvim")
-  hi Cursor guifg=#222222 guibg=#91c1f8 gui=bold
+  set macmeta
 
   " Remove scroll bars
   set guioptions-=t
   set guioptions-=r
-  set guioptions-=L
-  set guitablabel=%M\ %t
 
-  " Display the default tab style
-  set guioptions-=e
+  set guifont=Menlo:h16
+  hi Cursor guifg=#222222 guibg=#91c1f8 gui=bold
 
-  set macligatures
-  set ttyfast
-  set linespace=1
-  set noshowmode
-
-  " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
-  noremap <C-Tab> :tabnext<CR>
-  noremap <C-S-Tab> :tabprev<CR>
-  noremap <C-W> :bdelete<CR>
+  if has('python3')
+    command! -nargs=1 Py py3 <args>
+    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.6/Python
+    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.6
+  else
+    command! -nargs=1 Py py <args>
+    set pythondll=/usr/local/Frameworks/Python.framework/Versions/2.7/Python
+    set pythonhome=/usr/local/Frameworks/Python.framework/Versions/2.7
+  endif
 endif
-
 
 " Splitpanels options
 
 set splitbelow
 set splitright
-
-" Easy navigation between splits
-" https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
-
-nnoremap <leader>j <C-W><C-J>
-nnoremap <leader>k <C-W><C-K>
-nnoremap <leader>l <C-W><C-L>
-nnoremap <leader>h <C-W><C-H>
 
 
 " Text Formatting
@@ -168,16 +149,10 @@ set foldmethod=indent
 
 " Plugins configuration
 
-" Autocompletes
-
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:UltiSnipsExpandTrigger="<Tab>"
-
-
 " Ale
 
 let g:ale_linters = {
-\   'javascript': ['jshint'],
+\   'javascript': [''],
 \}
 
 
@@ -189,40 +164,22 @@ let g:ale_lint_on_text_changed = 0
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '●'
 
-
-" Airline
-
-let g:airline#extensions#ale#enabled = 1
-let g:airline_theme='wombat'
-
-
 " MiniBufLine
 
 let g:miniBufExplUseSingleClick = 1
 let g:miniBufExplBRSplit = 0
 let g:miniBufExplStatusLineText = ' '
 
-
-" Visual drag
-
-vmap  <expr>  <S-L> DVB_Drag('right')
-vmap  <expr>  <S-J> DVB_Drag('down')
-vmap  <expr>  <S-H> DVB_Drag('left')
-vmap  <expr>  <S-K> DVB_Drag('up')
-vmap  <expr>  D DVB_Duplicate()
-
-let g:DVB_TrimWS = 1
-
+nmap <leader>b :MBEToggle<CR>
+noremap <C-Tab> :MBEbn<CR>
+noremap <C-S-Tab> :MBEbp<CR>
+noremap <C-W> :MBEbd<CR>
 
 " fastUnit
 
 map <C-p> [unite]p
 nmap <leader>p [unite]p
 
-
-" Gundo
-
-nnoremap <F5> :GundoToggle<CR>
 
 " GitGutter
 
@@ -256,51 +213,21 @@ autocmd FileType vimfiler nmap <buffer> <S-Space> <Plug>(vimfiler_toggle_mark_cu
 
 " Keymaps
 
-" Conversion
-
-" to snake_case
-nmap <leader>2_ cr_
-" to camelCase
-nmap <leader>2c crc
-" to MixedCase
-nmap <leader>2m crm
-" to SNAKE_UPPERCASE
-nmap <leader>2u cru
-" to dash-case
-nmap <leader>2- cr-
-
-
-" Force redraw
-
-map <leader>r :redraw!<CR>
-
-
-" Disable directions key navigation
-
-noremap <up>    :echoerr 'Use K to go up'<CR>
-noremap <down>  :echoerr 'Use J to go down'<CR>
-noremap <left>  :echoerr 'Use H to go left'<CR>
-noremap <right> :echoerr 'Use L to go right'<CR>
-
-
 " Replace
 
 nmap <leader>s :%s//<left>
 vmap <leader>s :s//<left>
 
 
-" Spelling
-
-map <leader>ss :setlocal spell!<CR>
-
-
 " Clear last search
 
 nmap <leader>/ :noh<CR>
 
+" command JsonFormat :%!python -m json.tool
 
-" Fixing typos
+" Easy navigation between splits
 
-nmap :E :e
-nmap :W :w
-
+nnoremap <leader>j <C-W><C-J>
+nnoremap <leader>k <C-W><C-K>
+nnoremap <leader>l <C-W><C-L>
+nnoremap <leader>h <C-W><C-H>
