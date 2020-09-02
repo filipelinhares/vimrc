@@ -1,45 +1,31 @@
 " flp's vimrc
 
 set nocompatible
-set fileencoding=utf-8
+set encoding=utf-8
 
 " Plugins
-
 call plug#begin('~/.vim/plugged')
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimfiler.vim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Raimondi/delimitMate'
-Plug 'fholgado/minibufexpl.vim'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-Plug 'Yggdroot/indentLine'
-Plug 'alvan/vim-closetag'
-Plug 'rhysd/conflict-marker.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'elzr/vim-json'
-Plug 'danro/rename.vim'
-Plug 'easymotion/vim-easymotion'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'ervandew/supertab'
-Plug 'gregsexton/MatchTag'
-Plug 'itchyny/vim-cursorword'
-Plug 'kshenoy/vim-signature'
-Plug 'moll/vim-node'
+Plug 'preservim/nerdtree'
 Plug 'rakr/vim-one'
-Plug 'matze/vim-move'
-Plug 'rking/ag.vim'
-Plug 'rstacruz/vim-fastunite'
-Plug 'sheerun/vim-polyglot'
 Plug 'terryma/vim-multiple-cursors'
+
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'vim-scripts/Wombat'
-Plug 'w0rp/ale'
-Plug 'yuttie/comfortable-motion.vim'
-Plug 'fatih/vim-go'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'danro/rename.vim'
+Plug 'fholgado/minibufexpl.vim'
+Plug 'dense-analysis/ale'
+Plug 'ervandew/supertab'
+Plug 'gregsexton/MatchTag'
+
+Plug 'kien/ctrlp.vim'
+Plug 'posva/vim-vue'
+Plug 'rking/ag.vim'
+
+Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 " Leader now is Space
@@ -79,8 +65,8 @@ set smarttab
 
 " GUI
 
-set background=light
-colorscheme one
+set background=dark
+colorscheme dracula
 
 if has("gui_macvim")
   set macmeta
@@ -89,7 +75,7 @@ if has("gui_macvim")
   set guioptions-=t
   set guioptions-=r
 
-  set guifont=Menlo:h16
+  set guifont=Mononoki:h18
   hi Cursor guifg=#222222 guibg=#91c1f8 gui=bold
 
   if has('python3')
@@ -128,7 +114,7 @@ set linebreak
 " Show trailing whitespace
 
 set list
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set listchars=tab:>-,trail:·,extends:>,precedes:<
 
 
 " Vim backup files organized by context
@@ -141,28 +127,8 @@ set updatecount=100
 set undofile
 set undodir=$HOME/.vim/files/undo/
 
-
-" Fold
-
-set foldmethod=indent
-
-
 " Plugins configuration
 
-" Ale
-
-let g:ale_linters = {
-\   'javascript': [''],
-\}
-
-
-" Custom linting symbols
-
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '●'
 
 " MiniBufLine
 
@@ -175,23 +141,20 @@ noremap <C-Tab> :MBEbn<CR>
 noremap <C-S-Tab> :MBEbp<CR>
 noremap <C-W> :MBEbd<CR>
 
-" fastUnit
 
-map <C-p> [unite]p
-nmap <leader>p [unite]p
+" CtrlP
+
+map <C-p> :CtrlP<CR>
+nmap <leader>p :CtrlP<CR>
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$|node_modules'
 
 
 " GitGutter
 
 nmap <leader>g :GitGutterToggle<CR>
-
-
-" DelimitMate
-
-let delimitMate_expand_cr = 1
-let delimitMate_matchpairs = "(:),[:],{:}"
-
-au FileType html let b:delimitMate_autoclose = 0
 
 
 " Ag
@@ -200,16 +163,9 @@ nnoremap <leader>a :Ag!<space>
 let g:ag_working_path_mode="r"
 
 
-" Vimfiler
+" NERDTree
 
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_safe_mode_by_default = 0
-nmap <leader>f :VimFilerExplorer<CR>
-
-" Disable space key in Vimfiler
-autocmd FileType vimfiler nunmap <buffer> <Space>
-autocmd FileType vimfiler nmap <buffer> <S-Space> <Plug>(vimfiler_toggle_mark_current_line)
-
+map <leader>f :NERDTreeToggle<CR>
 
 " Keymaps
 
@@ -223,7 +179,6 @@ vmap <leader>s :s//<left>
 
 nmap <leader>/ :noh<CR>
 
-" command JsonFormat :%!python -m json.tool
 
 " Easy navigation between splits
 
