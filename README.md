@@ -10,21 +10,7 @@ curl -o - https://raw.githubusercontent.com/filipelinhares/vimrc/master/install.
 ```
 > Don't worry, it will back up your existing vim configuration.
 
-## Colors
-
 ![Screenshots](images/screenshot.png)
-
-``` viml
-set background=dark
-let g:airline_theme='wombat'
-colorscheme wombat
-```
-
-```viml
-set background=[dark | light]
-let g:airline_theme='one'
-colorscheme one
-```
 
 ## Fork and customize
 
